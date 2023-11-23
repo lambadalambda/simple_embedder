@@ -60,6 +60,10 @@ defmodule SimpleEmbedder.CLIP.PythonEmbedder do
     {:reply, {:ok, embedding}, state}
   end
 
+  def handle_call(:ping, _from, state) do
+    {:reply, :pong, state}
+  end
+
   @impl true
   def handle_continue(:load_model, state) do
     python_path = Path.join([__DIR__, "python_embedder"])

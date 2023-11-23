@@ -11,7 +11,6 @@ if torch.backends.mps.is_available():
 if torch.cuda.is_available():
     torch.set_default_device('cuda')
 
-
 class Embedder:
     def __init__(self):
         self.model = None

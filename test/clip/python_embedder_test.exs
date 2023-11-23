@@ -6,6 +6,9 @@ defmodule SimpleEmbedder.CLIP.PythonEmbedderTest do
   setup_all do
     {:ok, pid} = PythonEmbedder.start_link(name: nil)
 
+    # To ensure we're done loading when running the tests
+    :pong = GenServer.call(pid, :ping)
+
     on_exit(fn ->
       GenServer.stop(pid)
     end)
