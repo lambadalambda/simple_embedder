@@ -11,7 +11,7 @@ defmodule SimpleEmbedder.MixProject do
         description: "A package that wraps popular python-based embedding generators.",
         links: %{source: "https://github.com/lambadalambda/simple_embedder"},
         source_url: "https://github.com/lambadalambda/simple_embedder",
-        name: "SimpleEmbedder",
+        name: "simple_embedder",
         licenses: ["CC0-1.0"],
         exclude_patterns: ["__pycache__"]
       },
