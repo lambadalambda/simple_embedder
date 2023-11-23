@@ -9,7 +9,8 @@ defmodule SimpleEmbedder.MixProject do
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/lambadalambda/simple_embedder",
       name: "SimpleEmbedder",
-      license: "CC0-1.0",
+      licenses: ["CC0-1.0"],
+      links: [],
       deps: deps()
     ]
   end
