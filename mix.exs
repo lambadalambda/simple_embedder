@@ -9,10 +9,11 @@ defmodule SimpleEmbedder.MixProject do
       start_permanent: Mix.env() == :prod,
       package: %{
         description: "A package that wraps popular python-based embedding generators.",
-        links: [],
+        links: %{source: "https://github.com/lambadalambda/simple_embedder"},
         source_url: "https://github.com/lambadalambda/simple_embedder",
         name: "SimpleEmbedder",
-        licenses: ["CC0-1.0"]
+        licenses: ["CC0-1.0"],
+        exclude_patterns: ["__pycache__"]
       },
       deps: deps()
     ]
