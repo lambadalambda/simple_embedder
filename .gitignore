@@ -26,3 +26,4 @@ simple_embedder-*.tar
 /tmp/
 
 __pycache__
+local_cache
