@@ -1,6 +1,7 @@
 defmodule SimpleEmbedder.CLIP.PythonEmbedder do
   use GenServer
   @behaviour SimpleEmbedder.EmbedderAPI
+  alias SimpleEmbedder.EmbedderAPI
 
   @supported_models %{
     "openai/clip-vit-base-patch32" => %{
@@ -19,10 +20,14 @@ defmodule SimpleEmbedder.CLIP.PythonEmbedder do
   @impl true
   def init(opts \\ []) do
     model = Keyword.get(opts, :model, @default_model)
+    python_exec_path = Keyword.get(opts, :python_exec_path)
 
     case model in @supported_model_names do
-      true -> {:ok, %{model_name: model}, {:continue, :load_model}}
-      false -> {:stop, :error, "Invalid model name: #{model}"}
+      true ->
+        {:ok, %{model_name: model, python_exec_path: python_exec_path}, {:continue, :load_model}}
+
+      false ->
+        {:stop, :error, "Invalid model name: #{model}"}
     end
   end
 
@@ -68,11 +73,7 @@ defmodule SimpleEmbedder.CLIP.PythonEmbedder do
   def handle_continue(:load_model, state) do
     python_path = Path.join([__DIR__, "python_embedder"])
 
-    {:ok, python} =
-      :python.start(
-        python_path: python_path |> String.to_charlist()
-        # python: Path.join(:python_path, "venv/bin/python") |> String.to_charlist()
-      )
+    {:ok, python} = EmbedderAPI.start_python(python_path, state.python_exec_path)
 
     res = :python.call(python, :python_embedder, :load_model, [state.model_name])
 
