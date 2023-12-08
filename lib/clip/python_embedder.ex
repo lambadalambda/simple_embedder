@@ -79,13 +79,16 @@ defmodule SimpleEmbedder.CLIP.PythonEmbedder do
 
     case res do
       :ok -> {:noreply, Map.put(state, :python, python)}
-      :error -> {:stop, :error, state}
+      {:error, error} -> {:stop, :error, Map.put(state, :error, error)}
     end
   end
 
   @impl true
   def terminate(_reason, state) do
-    :python.stop(state.python)
+    if state[:python] do
+      :python.stop(state.python)
+    end
+
     :ok
   end
 end

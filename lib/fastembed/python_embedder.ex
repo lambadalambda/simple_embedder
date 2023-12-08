@@ -53,7 +53,7 @@ defmodule SimpleEmbedder.FastEmbed.PythonEmbedder do
 
     case res do
       :ok -> {:noreply, Map.put(state, :python, python)}
-      :error -> {:stop, :error, state}
+      {:error, error} -> {:stop, :error, Map.put(state, :error, error)}
     end
   end
 
@@ -61,5 +61,14 @@ defmodule SimpleEmbedder.FastEmbed.PythonEmbedder do
   def handle_call({:get_text_embedding, text}, _from, state) do
     embedding = :python.call(state.python, :python_embedder, :get_text_embedding, [text])
     {:reply, {:ok, embedding}, state}
+  end
+
+  @impl true
+  def terminate(_reason, state) do
+    if state[:python] do
+      :python.stop(state.python)
+    end
+
+    :ok
   end
 end
